@@ -70,12 +70,16 @@ public class RPSController {
             Thread.sleep(1000);
             result = gameRep.get(uuid).getResult();
         }
+        Game finishedGame = gameRep.get(uuid);
         switch (result) {
             case ONE:
-                return gameRep.get(uuid).getFirstPlayer().getName() + " is the winner";
+                gameRep.remove(uuid);
+                return finishedGame.getFirstPlayer().getName() + " is the winner";
             case TWO:
-                return gameRep.get(uuid).getSecondPlayer().getName() + " is the winner";
+                gameRep.remove(uuid);
+                return finishedGame.getSecondPlayer().getName() + " is the winner";
             default:
+                gameRep.remove(uuid);
                 return "It's a tie!";
         }
     }
