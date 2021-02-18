@@ -87,8 +87,9 @@ Spring Boot 2.4.2 or higher is required.
    mvnw spring-boot:run
    ```
    Alternatively, run RockPaperScissors.jar using
+   ```sh
    java -jar RockPaperScissors.jar
-
+   ```
 
 <!-- USAGE EXAMPLES -->
 ## Usage
