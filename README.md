@@ -92,20 +92,20 @@ Spring Boot 2.4.2 or higher is required.
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-Get info on active game using a UUID.
+Get info on active game using a string representing a UUID. (Example UUID: 2fab950f-52b7-4051-aeb2-9b52f81ac7f1)
 ```sh
 $ curl localhost:8080/{2fab950f-52b7-4051-aeb2-9b52f81ac7f1}
 ```
-Create new game with player Bob.
+Create new game with example player Bob.
 ```sh
 $ curl --request POST -d "name=Bob" localhost:8080/games/
 ```
-Join game as player Alice.
+Join game as example player Alice.
 
 ```sh
 $ curl --request POST -d "name=alice" localhost:8080/games/{2fab950f-52b7-4051-aeb2-9b52f81ac7f1}/join
 ```
-Make move as player Bob.
+Make move as example player Bob.
 
 ```sh
 $ curl --request POST -d "name=bob&move=ROCK" localhost:8080/games/{2fab950f-52b7-4051-aeb2-9b52f81ac7f1}/move
