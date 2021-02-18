@@ -83,11 +83,12 @@ Spring Boot 2.4.2 or higher is required.
    ```sh
    git clone https://github.com/mpx9411/RockPaperScissors.git
    ```
-2. In project folder, run 
+2. In project folder, start a command line and run 
    ```sh
    mvnw spring-boot:run
    ```
-
+   Alternatively, run RockPaperScissors.jar using
+   java -jar RockPaperScissors.jar
 
 
 <!-- USAGE EXAMPLES -->
