@@ -110,7 +110,7 @@ Make move as example player Bob.
 ```sh
 $ curl --request POST -d "name=bob&move=ROCK" localhost:8080/games/{2fab950f-52b7-4051-aeb2-9b52f81ac7f1}/move
 ```
-
+## Contact
 
 Magnus Palmstierna - olemagnuspalmstierna@gmail.com
 
