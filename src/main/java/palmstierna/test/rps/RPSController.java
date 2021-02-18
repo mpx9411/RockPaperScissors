@@ -14,8 +14,9 @@ public class RPSController {
     private HashMap<UUID, Game> gameRep = new HashMap<>();
 
     /**
-     * Get summary of game by fetching the correct game with
-     * the UUID and returning the toString() of the Game object.
+     * Get summary of game by fetching the correct game with the UUID and
+     * returning the toString() of the Game object. id is validated and incorrect input
+     * gives custom error message instead.
      *
      * @param id the id
      * @return the string
@@ -23,7 +24,7 @@ public class RPSController {
     @GetMapping("/games/{id}")
     public String getGame(@PathVariable String id) {
         Game game = gameRep.get(UUID.fromString(id));
-        return game.toString();
+        return (game == null ? "Game does not exist" : game.toString());
     }
 
     /**
@@ -42,19 +43,25 @@ public class RPSController {
 
     /**
      * Join a game by fetching the game from the map with the id converted to a UUID and
-     * running the join method with the given name as argument.
+     * running the join method with the given name as argument. id is validated and incorrect input gives
+     * custom error message.
      *
      * @param id   the id
      * @param name the name
      */
     @PostMapping("/games/{id}/join")
-    public void join(@PathVariable String id, @RequestParam(name = "name") String name) {
-        gameRep.get(UUID.fromString(id)).join(name);
+    public String join(@PathVariable String id, @RequestParam(name = "name") String name) {
+        UUID uuid = UUID.fromString(id);
+        if(gameRep.get(uuid) == null){
+            return "Game does not exist";
+        }
+        return gameRep.get(uuid).join(name);
     }
 
     /**
      * Make a move by fetching the game from the map with the id converted to a UUID and running the move method
-     * with the name-string and the move-string.
+     * with the name-string and the move-string. Every parameter is validated and incorrect input gives specific
+     * error messages.
      *
      * @param id   the id
      * @param name the name
@@ -64,6 +71,19 @@ public class RPSController {
     @PostMapping("/games/{id}/move")
     public String move(@PathVariable String id, @RequestParam(name = "name") String name, @RequestParam(name = "move") String move) throws InterruptedException {
         UUID uuid = UUID.fromString(id);
+        Game game = gameRep.get(uuid);
+        if(game == null){
+            return "Game does not exist!";
+        }
+        if(!game.hasPlayer(name)){
+            return "Player does not exist!";
+        }
+        try{
+            Hand enumMove = Hand.valueOf(move);
+        }catch (IllegalArgumentException e){
+            return "Invalid move!";
+        }
+
         gameRep.get(uuid).move(name, move);
         Outcome result = gameRep.get(uuid).getResult();
         while (result == Outcome.UNFINISHED) {
@@ -73,13 +93,10 @@ public class RPSController {
         Game finishedGame = gameRep.get(uuid);
         switch (result) {
             case ONE:
-                gameRep.remove(uuid);
                 return finishedGame.getFirstPlayer().getName() + " is the winner";
             case TWO:
-                gameRep.remove(uuid);
                 return finishedGame.getSecondPlayer().getName() + " is the winner";
             default:
-                gameRep.remove(uuid);
                 return "It's a tie!";
         }
     }

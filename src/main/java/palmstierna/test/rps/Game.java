@@ -50,13 +50,18 @@ public class Game {
         return secondPlayer;
     }
 
+    public boolean hasPlayer(String name){
+        return (firstPlayer.getName().equalsIgnoreCase(name) || secondPlayer.getName().equalsIgnoreCase(name));
+    }
+
     /**
      * Instantiates the second player.
      *
      * @param name name of the player
      */
-    public void join(String name) {
+    public String join(String name) {
         secondPlayer = new Player(name);
+        return name + " has joined.";
     }
 
     /**
@@ -184,16 +189,6 @@ public class Game {
         public void setHand(Hand hand) {
             this.hand = hand;
         }
-    }
-
-    /**
-     * Enum representing the possible moves the player can make.
-     */
-    private enum Hand {
-        ROCK,
-        PAPER,
-        SCISSORS,
-        NONE,
     }
 
 }
